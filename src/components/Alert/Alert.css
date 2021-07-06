@@ -1,0 +1,46 @@
+.Alert-root{
+  display: flex;
+  padding: 6px 16px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.43;
+  border-radius: 4px;
+  letter-spacing: 0.01071em;
+  background-color: transparent;
+}
+
+.Alert-warning {
+  color: rgb(102, 60, 0);
+  background-color: rgb(255, 244, 229);
+}
+
+.Alert-error {
+  color: rgb(97, 26, 21);
+  background-color: rgb(253, 236, 234);
+}
+
+.Alert-icon {
+  display: flex;
+  opacity: 0.9;
+  padding: 7px 0;
+  font-size: 22px;
+  margin-right: 12px;
+}
+
+.Alert-message {
+  text-align: initial;
+  padding: 8px 0;
+}
+
+.Alert-title {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.Alert-action {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: -8px;
+  padding-left: 16px;
+}
