@@ -29,8 +29,10 @@ export const getToken = async ({ setBloqued }) => {
     })
     if (currentToken) {
       console.log('current token for client: ', currentToken)
-      // Track the token -> client mapping, by sending to backend server
-      // show on the UI that permission is secured
+      const subscribedNewVersion = await getSubscriptions(currentToken, 'new-version')
+      if (!subscribedNewVersion) {
+        subscribeTokenToTopic(currentToken, 'new-version')
+      }
     } else {
       console.log(
         'No registration token available. Request permission to generate one.'
@@ -49,3 +51,35 @@ export const onMessageListener = () =>
       resolve(payload)
     })
   })
+
+function subscribeTokenToTopic (token, topic) {
+  fetch(`https://iid.googleapis.com/iid/v1/${token}/rel/topics/${topic}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `key=${process.env.REACT_APP_KEY_MESSAGINGS}`
+    }
+  }).then(response => {
+    if (response.status < 200 || response.status >= 400) {
+      throw new Error(`Error subscribing to topic: ${response.status} - ${response.text()}`)
+    }
+    console.log(`Subscribed to "${topic}"`)
+  }).catch(error => {
+    console.error(error)
+  })
+}
+
+async function getSubscriptions (token, topic) {
+  try {
+    const resp = await fetch(`https://iid.googleapis.com/iid/info/${token}?details=true`, {
+      headers: {
+        Authorization: `key=${process.env.REACT_APP_KEY_MESSAGINGS}`
+      }
+    })
+    const data = await resp.json()
+    const { rel: { topics } } = data
+    return topic in topics
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
