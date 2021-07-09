@@ -76,8 +76,11 @@ async function getSubscriptions (token, topic) {
       }
     })
     const data = await resp.json()
-    const { rel: { topics } } = data
-    return topic in topics
+    if ('rel' in data) {
+      const { rel: { topics } } = data
+      return topic in topics
+    }
+    return false
   } catch (error) {
     console.error(error)
     return false
