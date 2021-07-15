@@ -6,6 +6,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import reportWebVitals from './reportWebVitals'
 
 import { MessagingsProvider } from 'contexts/Messagings'
+import { RatingProvider } from 'contexts/Rating'
 
 const App = lazy(() => import('components/App'))
 
@@ -14,7 +15,9 @@ const renderLoader = () => <div>Cargando ♾</div>
 ReactDOM.render(
   <Suspense fallback={renderLoader()}>
     <MessagingsProvider>
-      <App />
+      <RatingProvider>
+        <App />
+      </RatingProvider>
     </MessagingsProvider>
   </Suspense>,
   document.getElementById('root')
