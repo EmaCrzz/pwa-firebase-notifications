@@ -2,9 +2,11 @@ import { lazy, Suspense, useContext } from 'react'
 
 import './App.css'
 import MessagingsContext from 'contexts/Messagings'
+import RatingContext from 'contexts/Rating'
 
 import useGif from 'hooks/useGif'
-import { onMessageListener } from 'config/firebase'
+
+import analytics, { onMessageListener } from 'config/firebase'
 
 const Button = lazy(() => import('components/Button'))
 const Alert = lazy(() => import('components/Alert'))
@@ -20,6 +22,11 @@ function App () {
     onShowPermission,
     showPermission
   } = useContext(MessagingsContext)
+
+  const {
+    userRated,
+    toggleUserRated
+  } = useContext(RatingContext)
 
   onMessageListener()
     .then((payload) => {
@@ -64,6 +71,32 @@ function App () {
             )}
             <br />
           </div>
+          {!userRated && (
+            <div>
+          <h5>
+            ¿Te gusta esta página?
+          </h5>
+          <Button
+          onClick={() => {
+            analytics.logEvent('rate_site', {
+              rate: 'positive'
+            })
+            toggleUserRated()
+          }}>
+            Si🙌
+          </Button>
+          <Button
+          onClick={() => {
+            analytics.logEvent('rate_site', {
+              rate: 'negative'
+            })
+            toggleUserRated()
+          }}
+          >
+            No😂
+          </Button>
+          </div>
+          )}
           <p>
             <Version />
           </p>
