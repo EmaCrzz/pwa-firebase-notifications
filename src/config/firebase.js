@@ -86,3 +86,8 @@ async function getSubscriptions (token, topic) {
     return false
   }
 }
+
+// Firebase Analytics
+const analytics = firebase.analytics()
+
+export default analytics
