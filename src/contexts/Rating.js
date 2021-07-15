@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import { analytics } from '../config/firebase'
+
 export const RatingContext = React.createContext()
 
 export function RatingProvider ({ children }) {
@@ -9,10 +11,25 @@ export function RatingProvider ({ children }) {
     setuserRated(!userRated)
   }
 
+  const ratePositive = () => {
+    analytics.logEvent('rate_site', {
+      rate: 'positive'
+    })
+    toggleUserRated()
+  }
+
+  const rateNegative = () => {
+    analytics.logEvent('rate_site', {
+      rate: 'negative'
+    })
+    toggleUserRated()
+  }
+
   const value = {
     userRated,
     // Modifiers
-    toggleUserRated
+    ratePositive,
+    rateNegative
   }
 
   return (

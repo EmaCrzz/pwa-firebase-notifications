@@ -6,7 +6,7 @@ import RatingContext from 'contexts/Rating'
 
 import useGif from 'hooks/useGif'
 
-import analytics, { onMessageListener } from 'config/firebase'
+import { onMessageListener } from 'config/firebase'
 
 const Button = lazy(() => import('components/Button'))
 const Alert = lazy(() => import('components/Alert'))
@@ -25,7 +25,8 @@ function App () {
 
   const {
     userRated,
-    toggleUserRated
+    ratePositive,
+    rateNegative
   } = useContext(RatingContext)
 
   onMessageListener()
@@ -77,21 +78,11 @@ function App () {
             ¿Te gusta esta página?
           </h5>
           <Button
-          onClick={() => {
-            analytics.logEvent('rate_site', {
-              rate: 'positive'
-            })
-            toggleUserRated()
-          }}>
+          onClick={() => ratePositive()}>
             Si🙌
           </Button>
           <Button
-          onClick={() => {
-            analytics.logEvent('rate_site', {
-              rate: 'negative'
-            })
-            toggleUserRated()
-          }}
+          onClick={() => rateNegative()}
           >
             No😂
           </Button>

@@ -91,4 +91,4 @@ async function getSubscriptions (token, topic) {
 // Firebase Analytics
 const analytics = firebase.analytics()
 
-export default analytics
+export { analytics }

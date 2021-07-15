@@ -14,11 +14,11 @@ const renderLoader = () => <div>Cargando ♾</div>
 
 ReactDOM.render(
   <Suspense fallback={renderLoader()}>
-    <RatingProvider>
-      <MessagingsProvider>
+    <MessagingsProvider>
+      <RatingProvider>
         <App />
-      </MessagingsProvider>
-    </RatingProvider>
+      </RatingProvider>
+    </MessagingsProvider>
   </Suspense>,
   document.getElementById('root')
 )
